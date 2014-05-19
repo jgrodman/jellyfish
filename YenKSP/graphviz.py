@@ -46,7 +46,7 @@ class Graphviz:
     ## The template for each node in the dot markup.
     _format_node = "\"%s\" [color=\"%s\"]"
     ## The template for each edge in the dot markup.
-    _format_edge = "\"%s\" -> \"%s\" [label=\"%s\"%s]"
+    _format_edge = "\"%s\" -- \"%s\" [label=\"%s\"]"
     
     ## The template for nodes of the same rank in the dot markup.
     _format_rank_same = "{ rank=same; %s }"
@@ -365,7 +365,7 @@ class Graphviz:
                                                 "style=dashed, color=\"%s\"" 
                                                 % self._format_infinity_color)
                 else:
-                    temp = self._format_edge % (node, node_to, cost, 
+                    temp = self._format_edge % (node, node_to, 
                                                 self.find_edge_color(node, 
                                                                      node_to))
                 
