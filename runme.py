@@ -6,12 +6,16 @@ def generateGraph():
   os.chdir("YenKSP")
   g = GraphGenerator(20, 5)
   g.generate()
+  return g
+
+
+def createImage(g):
   paint = g.graph.painter()
   g.graph.export(False, paint)
 
-
 def main():
-  generateGraph()
+  g = generateGraph()
+  createImage(g)
 
 if __name__ == "__main__":
     main()
