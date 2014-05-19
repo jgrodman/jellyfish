@@ -4,7 +4,7 @@ import os
 
 def generateGraph():
   os.chdir("YenKSP")
-  g = GraphGenerator(20, 5)
+  g = GraphGenerator(24, 5)
   g.generate()
   return g
 
