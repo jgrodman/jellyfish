@@ -55,4 +55,7 @@ docs/_build/
 # Other
 *DS_Store
 ._graphviz
-*.swp
+*.sw
+*.dot
+*.json
+*.png

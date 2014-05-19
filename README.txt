@@ -8,3 +8,9 @@ Jellyfish: Networking Data Centers Randomly
 Instructions:
 Run on myth
 python runme.py
+
+
+Improvements:
+speed
+use digraph directly
+use undirected graph
