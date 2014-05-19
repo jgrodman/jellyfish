@@ -132,6 +132,37 @@ class DiGraph:
         self._data[node_from][node_to] = cost
         return
 
+    # return true if the graph has the specified edge, else false
+    def has_edge(self, node_from, node_to):
+        if self._data.has_key(node_from) and self._data[node_from].has_key(node_to):
+            return True
+        return False
+
+    def get_nth_edge(self, node, edge_num):
+        if not self._data.has_key(node):
+            return -1
+        return self._data[node].keys()[edge_num]
+
+    # return the number of edges a node has, -1 on error
+    def num_edges(self, node):
+        if not self._data.has_key(node):
+            return -1
+        return len(self._data[node])
+
+    # return the number of edges in the graph
+    def num_total_edges(self):
+        n = 0
+        for node in self._data:
+            n += len(self._data[node])
+        return n
+
+    # delete the specified edge - whereas remove_edge sets cost to infinity
+    def delete_edge(self, node_from, node_to):
+        if not self._data.has_key(node_from):
+            return -1
+        if node_to in self._data[node_from]:
+            del self._data[node_from][node_to]
+
     ## Removes an edge from the graph.
     #
     # @param self The object pointer.

@@ -1,5 +1,6 @@
 import random
 import json
+from YenKSP.graph import DiGraph
 
 # class for generating a random graph, as per Jellyfish algorithm
 class GraphGenerator:
@@ -8,16 +9,18 @@ class GraphGenerator:
     self.edgesPerNode = edgesPerNode
     self.open = [] # nodes that still have open links
     self.closed = [] # nodes that have no open links
+    self.graph = DiGraph("jesse")
     for i in range(numNodes):
-      self.open.append(Node(i, edgesPerNode))
+      self.graph.add_node(i)
+      self.open.append(i)
 
   # move nodes around open, closed if necessary
   def relocateNodes(self, nodes):
     for node in nodes:
-      if node.isOpen() and node in self.closed:
+      if self.graph.num_edges(node) < self.edgesPerNode and node in self.closed:
         self.closed.remove(node)
         self.open.append(node)
-      elif (not node.isOpen()) and node in self.open:
+      elif (not self.graph.num_edges(node) < self.edgesPerNode) and node in self.open:
         self.open.remove(node)
         self.closed.append(node)
 
@@ -26,33 +29,25 @@ class GraphGenerator:
     random.shuffle(self.open)
     for a in self.open:
       for b in self.open:
-        if (not a is b) and (not a.isLinkedTo(b)):
-          a.createLink(b)
-          b.createLink(a)
-          print a.id, "link", b.id
+        if (not a is b) and (not self.graph.has_edge(a, b)):
+          self.graph.add_edge(a, b, 1)
+          self.graph.add_edge(b, a, 1)
           self.relocateNodes([a, b])
           return True
     return False
 
-  # count the number of total links in the graph
-  def numLinks(self):
-    n = 0
-    for node in self.open + self.closed:
-      n += node.numLinks()
-    return n
-
   # find a pair of linked nodes and unlink them
   # link is selected uniformly at random from existing links
   def unlinkNodes(self):
-    removeNum = random.randint(0, self.numLinks() - 1)
+    removeNum = random.randint(0, self.graph.num_total_edges() - 1)
     for node in self.open + self.closed:
-      if node.numLinks() > removeNum:
-        other = node.linkedNodes[removeNum]
-        node.removeLink(other)
-        other.removeLink(node)
+      if self.graph.num_edges(node) > removeNum:
+        other = self.graph.get_nth_edge(node, removeNum)
+        self.graph.delete_edge(node, other)
+        self.graph.delete_edge(other, node)
         self.relocateNodes([node, other])
         return
-      removeNum -= node.numLinks()
+      removeNum -= self.graph.num_edges(node)
 
   # generates the graph, so that export() can be called next
   def generate(self):
@@ -73,24 +68,3 @@ class GraphGenerator:
     f = open(fileName, "w")
     f.write(json.dumps(dump))
     f.close()
-
-class Node:
-  def __init__(self, id, capacity):
-    self.id = id
-    self.capacity = capacity
-    self.linkedNodes = []
-
-  def createLink(self, node):
-    self.linkedNodes.append(node)
-
-  def removeLink(self, node):
-    self.linkedNodes.remove(node)
-
-  def isLinkedTo(self, node):
-    return node in self.linkedNodes
-
-  def numLinks(self):
-    return len(self.linkedNodes)
-
-  def isOpen(self):
-    return self.numLinks() < self.capacity
