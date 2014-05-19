@@ -1,4 +1,4 @@
-digraph network { 
+graph network { 
 	rankdir=TB;
 	node [shape=circle, style=filled]
 	edge [minlen=2]

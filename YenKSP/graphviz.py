@@ -357,6 +357,9 @@ class Graphviz:
                      + "\n\t"
             
             for node_to, cost in nitems.iteritems():
+                # plot undirected graph, not directed
+                if node > node_to:
+                    continue
                 if (node + node_to) in self._container_infinite:
                     temp = self._format_edge % (node, node_to, u"∞", 
                                                 "style=dashed, color=\"%s\"" 
