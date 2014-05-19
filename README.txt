@@ -11,6 +11,4 @@ python runme.py
 
 
 Improvements:
-speed
-use digraph directly
-use undirected graph
+Hangs on GraphGenerator(25, 5)
