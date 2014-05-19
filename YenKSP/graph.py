@@ -70,7 +70,8 @@ class DiGraph:
         if name:
             self._name = name
         
-        self.load()
+        # commented out so that graph will be built from scratch each time
+        # self.load()
         
         self._painter = Graphviz()
         return
