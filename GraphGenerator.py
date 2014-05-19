@@ -56,15 +56,3 @@ class GraphGenerator:
         pass
       if len(self.open) > 0:
         self.unlinkNodes()
-
-  # write JSON representing graph to file
-  def export(self, fileName):
-    dump = {}
-    for node in self.closed:
-      linkedWeights = {}
-      for linkedTo in node.linkedNodes:
-        linkedWeights[linkedTo.id] = 1
-      dump[node.id] = linkedWeights
-    f = open(fileName, "w")
-    f.write(json.dumps(dump))
-    f.close()
