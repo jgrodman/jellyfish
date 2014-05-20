@@ -8,6 +8,7 @@ Jellyfish: Networking Data Centers Randomly
 Instructions:
 Run on myth
 python runme.py
+Image outputted to YenKSP/images
 
 
 Improvements:
