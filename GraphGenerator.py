@@ -28,7 +28,7 @@ class GraphGenerator:
       if self.graph.num_edges(node) < self.edgesPerNode and node in self.closed:
         self.closed.remove(node)
         self.open.append(node)
-      elif (not self.graph.num_edges(node) < self.edgesPerNode) and node in self.open:
+      elif self.graph.num_edges(node) == self.edgesPerNode and node in self.open:
         self.open.remove(node)
         self.closed.append(node)
 
