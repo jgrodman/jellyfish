@@ -6,16 +6,20 @@ from YenKSP.graph import DiGraph
 class GraphGenerator:
   def __init__(self, numNodes, edgesPerNode):
     self.edgesPerNode = edgesPerNode
-    self.open = [] # nodes that still have open links
-    self.closed = [] # nodes that have no open links
+    self.numNodes = numNodes
+    self._setup()
+
+  def _setup(self):
+    self.open = []
+    self.closed = []
     self.graph = DiGraph("jesse")
-    for i in range(numNodes):
+    for i in range(self.numNodes):
       self.graph.add_node(i)
       self.open.append(i)
-
+      
   # generates the graph, so that the underlying graph object can then be used
   def generate(self):
-    previousOpen = []
+    previousOpenLen = 99999
     sameCount = 0
     while len(self.open) > 0:
       while self._linkNodes():
@@ -27,8 +31,22 @@ class GraphGenerator:
           self._linkSwap(self.open[0])
         return self.graph
         
-      while self._isFullyConnected(self.open):
+      if self._isFullyConnected(self.open):
           self._linkSwap(random.choice(self.open))
+          
+      if len(self.open) == previousOpenLen:
+        sameCount = sameCount + 1
+        # print "Same count is %d" % sameCount
+      else:
+        sameCount = 0
+      previousOpenLen = len(self.open)
+      
+      if sameCount > self.numNodes * 3:
+          print "Abort!"
+          self._setup()
+          sameCount = 0
+          previousOpen = 99999
+          
     return self.graph
 
   # move nodes around open, closed if necessary
