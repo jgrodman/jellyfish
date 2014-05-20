@@ -18,8 +18,15 @@ class GraphGenerator:
     while len(self.open) > 0:
       while self._linkNodes():
         pass
-      if len(self.open) > 0:
-        self._unlinkNodes()
+  
+      # Special cases
+      if len(self.open) == 1:
+        if self.graph.num_edges(self.open[0]) > 1:
+          self._linkSwap(self.open[0])
+        return self.graph
+      if len(self.open) == 2 and self.graph.has_edge(self.open[0], self.open[1]):
+        # Swapping a single link seems to be enough to get things working again
+        self._linkSwap(self.open[0])
     return self.graph
 
   # move nodes around open, closed if necessary
@@ -56,3 +63,20 @@ class GraphGenerator:
         self._relocateNodes([node, other])
         return
       removeNum -= self.graph.num_edges(node)
+      
+  # Deals with an isolated open node 
+  # Removes a random link and connects the endpoints to the isolated edge 
+  def _linkSwap(self, node):
+    while self.graph.num_edges(node) > 1 and self.graph.num_edges(node) < self.edgesPerNode:
+      otherNode1 = random.choice(self.closed)
+      otherNode2 = self.graph.get_nth_edge(otherNode1, 0)
+      
+      self.graph.delete_edge(otherNode1, otherNode2)
+      self.graph.delete_edge(otherNode2, otherNode1)
+
+      self.graph.add_edge(node, otherNode1, 1)
+      self.graph.add_edge(otherNode1, node, 1)
+      self.graph.add_edge(node, otherNode2, 1)
+      self.graph.add_edge(otherNode2, node, 1)
+      self._relocateNodes([node, otherNode1, otherNode2])
+  
