@@ -8,7 +8,6 @@ def generateGraph():
   g.generate()
   return g
 
-
 def createImage(g):
   paint = g.graph.painter()
   g.graph.export(False, paint)
