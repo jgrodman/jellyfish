@@ -13,7 +13,7 @@ class GraphGenerator:
       self.graph.add_node(i)
       self.open.append(i)
 
-  # generates the graph, so that export() can be called next
+  # generates the graph, so that the underlying graph object can then be used
   def generate(self):
     while len(self.open) > 0:
       while self._linkNodes():
