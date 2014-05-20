@@ -8,7 +8,7 @@ def main():
 
 def _generateGraph():
   os.chdir("YenKSP")
-  g = GraphGenerator(24, 5)
+  g = GraphGenerator(25, 5)
   return g.generate()
 
 def _createImage(g):

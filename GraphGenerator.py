@@ -15,6 +15,8 @@ class GraphGenerator:
 
   # generates the graph, so that the underlying graph object can then be used
   def generate(self):
+    previousOpen = []
+    sameCount = 0
     while len(self.open) > 0:
       while self._linkNodes():
         pass
@@ -24,9 +26,9 @@ class GraphGenerator:
         if self.graph.num_edges(self.open[0]) > 1:
           self._linkSwap(self.open[0])
         return self.graph
-      if len(self.open) == 2 and self.graph.has_edge(self.open[0], self.open[1]):
-        # Swapping a single link seems to be enough to get things working again
-        self._linkSwap(self.open[0])
+        
+      while self._isFullyConnected(self.open):
+          self._linkSwap(random.choice(self.open))
     return self.graph
 
   # move nodes around open, closed if necessary
@@ -67,6 +69,7 @@ class GraphGenerator:
   # Deals with an isolated open node 
   # Removes a random link and connects the endpoints to the isolated edge 
   def _linkSwap(self, node):
+    print "Link Swap"
     while self.graph.num_edges(node) > 1 and self.graph.num_edges(node) < self.edgesPerNode:
       otherNode1 = random.choice(self.closed)
       otherNode2 = self.graph.get_nth_edge(otherNode1, 0)
@@ -80,3 +83,13 @@ class GraphGenerator:
       self.graph.add_edge(otherNode2, node, 1)
       self._relocateNodes([node, otherNode1, otherNode2])
   
+  # Checks if a list of nodes is fully connected
+  def _isFullyConnected(self, nodes):
+    if len(nodes) <= 1:
+      return False
+    print "isFullyConnected"
+    for a in nodes:
+        for b in nodes:
+            if a is not b and not self.graph.has_edge(a, b):
+                return False
+    return True
