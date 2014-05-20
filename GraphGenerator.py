@@ -5,7 +5,6 @@ from YenKSP.graph import DiGraph
 # class for generating a random graph, as per Jellyfish algorithm
 class GraphGenerator:
   def __init__(self, numNodes, edgesPerNode):
-    self.numNodes = numNodes
     self.edgesPerNode = edgesPerNode
     self.open = [] # nodes that still have open links
     self.closed = [] # nodes that have no open links
@@ -14,7 +13,7 @@ class GraphGenerator:
       self.graph.add_node(i)
       self.open.append(i)
 
-  # generates the graph, so that export() can be called next
+  # generates the graph, so that the underlying graph object can then be used
   def generate(self):
     while len(self.open) > 0:
       while self._linkNodes():
