@@ -5,13 +5,11 @@ import os
 def generateGraph():
   os.chdir("YenKSP")
   g = GraphGenerator(24, 5)
-  g.generate()
-  return g
-
+  return g.generate()
 
 def createImage(g):
-  paint = g.graph.painter()
-  g.graph.export(False, paint)
+  paint = g.painter()
+  g.export(False, paint)
 
 def main():
   g = generateGraph()

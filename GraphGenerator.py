@@ -21,6 +21,7 @@ class GraphGenerator:
         pass
       if len(self.open) > 0:
         self._unlinkNodes()
+    return self.graph
 
   # move nodes around open, closed if necessary
   def _relocateNodes(self, nodes):
