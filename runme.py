@@ -1,10 +1,12 @@
 from GraphGenerator import GraphGenerator
+from KSPPather import KSPPather
 from YenKSP.graph import DiGraph
 import os
 
 def main():
   g = _generateGraph()
   _createImage(g)
+  kspPathCounts = KSPPather(g).countPaths()
 
 def _generateGraph():
   os.chdir("YenKSP")

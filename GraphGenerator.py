@@ -14,8 +14,8 @@ class GraphGenerator:
     self.closed = []
     self.graph = DiGraph("jesse")
     for i in range(self.numNodes):
-      self.graph.add_node(i)
-      self.open.append(i)
+      self.graph.add_node(i+1)
+      self.open.append(i+1)
       
   # generates the graph, so that the underlying graph object can then be used
   def generate(self):
@@ -87,7 +87,6 @@ class GraphGenerator:
   # Deals with an isolated open node 
   # Removes a random link and connects the endpoints to the isolated edge 
   def _linkSwap(self, node):
-    print "Link Swap"
     while self.graph.num_edges(node) > 1 and self.graph.num_edges(node) < self.edgesPerNode:
       otherNode1 = random.choice(self.closed)
       otherNode2 = self.graph.get_nth_edge(otherNode1, 0)
