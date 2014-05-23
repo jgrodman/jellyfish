@@ -7,9 +7,6 @@ class GraphGenerator:
   def __init__(self, numNodes, edgesPerNode):
     self.edgesPerNode = edgesPerNode
     self.numNodes = numNodes
-    self._setup()
-
-  def _setup(self):
     self.open = []
     self.closed = []
     self.graph = DiGraph("jesse")
