@@ -5,13 +5,11 @@ from YenKSP.graph import DiGraph
 import os
 
 def main():
-  _createFigure9()
-
-def _createFigure9():
-  print "===== Figure 9 ====="
-  print "Generating graph..."
   g = _generateGraph()
   _createImage(g)
+  _createFigure9(g)
+
+def _createFigure9(g):
   print "Counting paths..."
   p = Pather(g)
   p.countPaths()
@@ -19,6 +17,7 @@ def _createFigure9():
   Figure9(p.kspPathCounts, p.ecmpPathCounts).plot("figure9.png")
   
 def _generateGraph():
+  print "Generating graph..."
   os.chdir("YenKSP")
   g = GraphGenerator(30, 5)
   return g.generate()
