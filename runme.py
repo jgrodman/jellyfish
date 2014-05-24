@@ -6,8 +6,8 @@ import os
 
 def main():
   g = _generateGraph()
-  _createImage(g)
-  _createFigure9(g)
+#  _createImage(g)
+#  _createFigure9(g)
 
 def _createFigure9(g):
   print "Counting paths..."
@@ -19,7 +19,12 @@ def _createFigure9(g):
 def _generateGraph():
   print "Generating graph..."
   os.chdir("YenKSP")
-  g = GraphGenerator(30, 5)
+  numNodes = 10000
+  edgesPerNode = 48
+  g = GraphGenerator(numNodes, edgesPerNode)
+  print "numNodes", numNodes
+  print "edgesPerNode", edgesPerNode
+  
   return g.generate()
 
 def _createImage(g):
