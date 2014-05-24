@@ -15,18 +15,19 @@ class Pather:
   def countPaths(self):
     for sourceNode in self.graph:
       for sinkNode in self.graph:
-        if sourceNode is not sinkNode:
-          paths = ksp_yen(self.graph,sourceNode,sinkNode,self.k)
-          if len(paths) == 0:
-            continue
+        if sinkNode >= sourceNode: # only traverse path in one direction
+          continue
+        paths = ksp_yen(self.graph,sourceNode,sinkNode,self.k)
+        if len(paths) == 0:
+          continue
             
-          # Increment path counts for KSP (always), ECMP (if cost = cost of shortest path)
-          minimumPathCost = paths[0]["cost"]  
-          for pathInfo in paths:
-            self._incrementLinksOnPath(pathInfo["path"], self.kspPathCounts)
-            if pathInfo["cost"] == minimumPathCost:
-              # EC
-              self._incrementLinksOnPath(pathInfo["path"], self.ecmpPathCounts)
+        # Increment path counts for KSP (always), ECMP (if cost = cost of shortest path)
+        minimumPathCost = paths[0]["cost"]  
+        for pathInfo in paths:
+          self._incrementLinksOnPath(pathInfo["path"], self.kspPathCounts)
+          if pathInfo["cost"] == minimumPathCost:
+            # EC
+            self._incrementLinksOnPath(pathInfo["path"], self.ecmpPathCounts)
               
   # Increments the path count of each link on the given path
   # path = list of nodes forming a path
@@ -36,9 +37,18 @@ class Pather:
       if previousNode == None:
         previousNode = node
         continue
+
+      # add both permutations since we only traverse each path in one direction, even though it is undirected
       link = (previousNode, node)
       if link in pathCounts:
-        pathCounts[link] = pathCounts[link] + 1
+        pathCounts[link] += 1 
       else:
         pathCounts[link] = 1
+
+      link = (node, previousNode)
+      if link in pathCounts:
+        pathCounts[link] += 1
+      else:
+        pathCounts[link] = 1
+
       previousNode = node
