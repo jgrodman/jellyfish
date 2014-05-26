@@ -5,8 +5,10 @@ from YenKSP.graph import DiGraph
 import os
 
 def main():
+  os.chdir("YenKSP")
   g = _generateGraph()
   _createImage(g)
+  os.chdir("..")
   _createFigure9(g)
 
 def _createFigure9(g):
@@ -15,14 +17,13 @@ def _createFigure9(g):
   p.countPaths()
   print "Creating plot..."
   print len(p.kspPathCounts), len(p.ecmpPathCounts)
-  Figure9(p.kspPathCounts, p.ecmpPathCounts).plot("figure9.png")
+  Figure9(p.kspPathCounts, p.ecmpPathCounts).plot("output/figure9.png")
   
 def _generateGraph():
   print "Generating graph..."
-  os.chdir("YenKSP")
   numNodes = 35
   edgesPerNode = 5
-  g = GraphGenerator(numNodes, edgesPerNode)
+  g = GraphGenerator(numNodes, edgesPerNode, "graph")
   print "numNodes", numNodes
   print "edgesPerNode", edgesPerNode
   
