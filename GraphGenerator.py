@@ -5,12 +5,12 @@ from YenKSP.graph import DiGraph
 
 # class for generating a random graph, as per Jellyfish algorithm
 class GraphGenerator:
-  def __init__(self, numNodes, edgesPerNode):
+  def __init__(self, numNodes, edgesPerNode, graphName):
     self.edgesPerNode = edgesPerNode
     self.numNodes = numNodes
     self.open = []
     self.closed = []
-    self.graph = DiGraph("jesse")
+    self.graph = DiGraph(graphName)
     for i in range(self.numNodes):
       self.graph.add_node(i+1)
       self.open.append(i+1)

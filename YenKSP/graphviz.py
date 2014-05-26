@@ -35,7 +35,7 @@ class Graphviz:
     ## The location that the graph data is stored as dot markups.
     _directory_data = "data/dot/"    
     ## The location that the graph data is stored as images.
-    _directory_images = "images/"    
+    _directory_images = "../output/"    
     ## The location of the templates for the dot markup.
     _directory_templates = "data/templates/"
     ## The name of the template for the dot markup.
@@ -334,6 +334,9 @@ class Graphviz:
         if not os.path.exists(path_dot):
             return False
         
+        if not os.path.exists(self._directory_images):
+            os.makedirs(self._directory_images)
+
         cmd = "dot %s -Tpng -o %s" % (path_dot, path_png)
         if os.system(cmd) == 0:
             return True
