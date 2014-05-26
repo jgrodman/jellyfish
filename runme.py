@@ -3,8 +3,12 @@ from Pather import Pather
 from Figure9 import Figure9
 from YenKSP.graph import DiGraph
 import os
+import shutil
 
 def main():
+  if os.path.exists("output"):
+    shutil.rmtree("output")
+  os.mkdir("output")
   numSamples = 10
   kspAverages = []
   ecmpAverages = []
