@@ -11,6 +11,7 @@ class GraphGenerator:
     self.open = []
     self.closed = []
     self.graph = DiGraph(graphName)
+    self.graph._data = {}
     for i in range(self.numNodes):
       self.graph.add_node(i+1)
       self.open.append(i+1)
@@ -46,6 +47,8 @@ class GraphGenerator:
       if not a in self.open:
         continue
       for b in oldOpen:
+        if not a in self.open:
+          break
         if not b in self.open:
           continue
         if (not a is b) and (not self.graph.has_edge(a, b)):
@@ -60,6 +63,7 @@ class GraphGenerator:
       toRemove = self.graph.get_nth_edge(node, random.randint(0, self.graph.num_edges(node) - 1))
       self.graph.delete_edge(node, toRemove)
       self.graph.delete_edge(toRemove, node)
+      self._relocateNodes([toRemove])
 
     otherNode1 = random.choice(self.closed)
     while self.graph.has_edge(node, otherNode1):
