@@ -2,6 +2,7 @@ from GraphGenerator import GraphGenerator
 from Pather import Pather
 from Figure9 import Figure9
 from YenKSP.graph import DiGraph
+from PlotVariability import plotVariability
 import os
 
 def main():
@@ -20,7 +21,7 @@ def main():
     (kspPathCounts, ecmpPathCounts) = _countPaths(g)
     kspAverages.append(_listAverage(kspPathCounts.values()))
     ecmpAverages.append(_listAverage(ecmpPathCounts.values()))
-
+  plotVariability(kspAverages, ecmpAverages,"output/variability.png")
     
   print "KSP averages: %s" % kspAverages
   print "ECMP averages: %s" % ecmpAverages

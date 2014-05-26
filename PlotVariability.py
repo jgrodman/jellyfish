@@ -7,15 +7,15 @@ import math
 # x-axis: averages
 # y-axis: number of graphs
 
-def plotVariability(kspAverages, ecmpAverages):
+def plotVariability(kspAverages, ecmpAverages, filename):
   # Group the values into groups of 10, bounded by the smallest and largest values 
   # present in either array
-  upperBound = roundUpToNearest10(max(max(kspAverages), max(ecmpAverages)))
-  lowerBound = roundDownToNearest10(min(kspAverages, min(ecmpAverages)))
-  increment = 10
+  increment = 20
+  upperBound = roundUpToNearestIncrement(max(max(kspAverages), max(ecmpAverages)),increment)
+  lowerBound = roundDownToNearestIncrement(min(kspAverages, min(ecmpAverages)),increment)
   kspCounts = countValuesWithinIntervals(lowerBound, upperBound, increment, kspAverages)
   ecmpCounts = countValuesWithinIntervals(lowerBound, upperBound, increment, ecmpAverages)
-  
+  maxCount = max(max(kspCounts),max(ecmpCounts))
   # Draw the graphs, with one bar for each group 
   barWidth = 0.35
   xCoords = range(0, (upperBound - lowerBound) / increment)
@@ -26,17 +26,17 @@ def plotVariability(kspAverages, ecmpAverages):
   # Labels
   plt.ylabel('Number of Graphs')
   plt.xlabel('Average # of distinct paths per node')
-  plt.xticks(ecmpXCoords)
-  # plt.xticklabels(generateLabels(lowerBound, upperBound, increment))
-  
-  plt.savefig("test.png")
+  plt.xticks(ecmpXCoords, generateLabels(lowerBound, upperBound, increment))
+  plt.yticks(range(0,maxCount + 1))
+  plt.legend( ('8 Shortest Paths', '8-way ECMP'), loc='upper right')
+  plt.savefig(filename)
   plt.close()
   
-def roundUpToNearest10(num):
-  return int(math.ceil(float(num) / 10) * 10);
+def roundUpToNearestIncrement(num, increment):
+  return int(math.ceil(float(num) / increment) * increment);
 
-def roundDownToNearest10(num):
-  return int(math.floor(num / 10) * 10);
+def roundDownToNearestIncrement(num, increment):
+  return int(math.floor(num / increment) * increment);
   
 # Counts the number of values in lst that fall within each subinterval of
 # length increment between lower and upper bounds, 
@@ -44,13 +44,14 @@ def roundDownToNearest10(num):
 # For example, fun(10,30,10, [13,14,22]) would return [0,2,1]
 def countValuesWithinIntervals(lowerBound, upperBound, increment, lst):
   counts = []
-  for i in range(lowerBound, upperBound, 10):
-    counts.append(len(filter(lambda x: x >= i and x < i + 10, lst)))
+  for i in range(lowerBound, upperBound, increment):
+    counts.append(len(filter(lambda x: x >= i and x < i + increment, lst)))
   return counts
   
 # Generates labels for each subinterval
 def generateLabels(lowerBound, upperBound, increment):
   labels = []
   for i in range(lowerBound, upperBound, increment):
-    labels.append("%d-%d", lowerBound, lowerBound + increment - 1)
+    labels.append("%d-%d" % (i, i + increment - 1))
+  print labels
   return labels
