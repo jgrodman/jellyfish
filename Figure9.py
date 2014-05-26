@@ -20,5 +20,4 @@ class Figure9:
     plt.ylim(0,max(max(kspValues), max(ecmpValues)))
     plt.legend( ('8 Shortest Paths', '8-way ECMP'), loc='upper left')
     plt.savefig(filename)
-    
-  # def _prepareData(self):
+    plt.close()

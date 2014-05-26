@@ -30,6 +30,7 @@ def plotVariability(kspAverages, ecmpAverages):
   # plt.xticklabels(generateLabels(lowerBound, upperBound, increment))
   
   plt.savefig("test.png")
+  plt.close()
   
 def roundUpToNearest10(num):
   return int(math.ceil(float(num) / 10) * 10);
