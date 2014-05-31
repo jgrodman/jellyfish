@@ -52,3 +52,10 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Other
+*DS_Store
+._graphviz
+*.sw
+*.dot
+*.json
+*.png
