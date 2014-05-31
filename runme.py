@@ -10,12 +10,16 @@ def main():
   if os.path.exists("output"):
     shutil.rmtree("output")
   os.mkdir("output")
-  numSamples = 10
+  numSamples = 100
+  numNodes = 35
+  edgesPerNode = 5
   kspAverages = []
   ecmpAverages = []
+  print "numNodes", numNodes
+  print "edgesPerNode", edgesPerNode
+  
   for i in range(0,numSamples):
-    numNodes = 35
-    edgesPerNode = 5
+    print "Generating graph %d" % i
     os.chdir("YenKSP")
     graphName = "graph" + str(i)
     g = _generateGraph(numNodes, edgesPerNode, graphName)
@@ -42,10 +46,7 @@ def _countPaths(g):
   return (p.kspPathCounts, p.ecmpPathCounts)
   
 def _generateGraph(numNodes, edgesPerNode, graphName):
-  print "Generating graph..."
   g = GraphGenerator(numNodes, edgesPerNode, graphName)
-  print "numNodes", numNodes
-  print "edgesPerNode", edgesPerNode
   return g.generate()
 
 def _createImage(g):
