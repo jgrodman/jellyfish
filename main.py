@@ -5,14 +5,18 @@ from YenKSP.graph import DiGraph
 from PlotVariability import plotVariability
 import os
 import shutil
+import sys
 
 def main():
+  if len(sys.argv) is not 4:
+    print "usage: python runme.py [num graphs] [num nodes] [num links per node]"
+    return
   if os.path.exists("output"):
     shutil.rmtree("output")
   os.mkdir("output")
-  numSamples = 100
-  numNodes = 35
-  edgesPerNode = 5
+  numSamples = int(sys.argv[1])
+  numNodes = int(sys.argv[2])
+  edgesPerNode = int(sys.argv[3])
   kspAverages = []
   ecmpAverages = []
   print "numNodes", numNodes
