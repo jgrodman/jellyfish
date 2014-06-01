@@ -7,4 +7,4 @@ Jellyfish: Networking Data Centers Randomly
 
 Instructions:
 ./runme.sh
-Images output to output_[num nodes]_[edges per node]/
+Images output to output_[num nodes]_[edges per node]/ (for example, output_35_5)
